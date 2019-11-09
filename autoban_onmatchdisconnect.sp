@@ -39,6 +39,8 @@ ConVar cv_enable, cv_bantime, cv_time;
 
 public void OnPluginStart()
 {
+	CreateConVar("sm_franugautobanmatchdisc_version", DATA, "", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
+	
 	cv_enable = CreateConVar("sm_autobandisconnect_enable", "0", "Enable or disable the functions of this plugin");
 	cv_bantime = CreateConVar("sm_autobandisconnect_bantime", "1440", "Ban time for people that disconnect on match live");
 	cv_time = CreateConVar("sm_autobandisconnect_enable", "300", "Time for wait people to reconnect until apply the ban");
