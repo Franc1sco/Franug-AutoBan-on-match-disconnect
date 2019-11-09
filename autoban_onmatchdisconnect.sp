@@ -18,7 +18,6 @@
 
 #include <sourcemod>
 #include <sdktools>
-#include <cstrike>
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
 
