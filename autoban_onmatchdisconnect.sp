@@ -21,7 +21,7 @@
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
 
-#define DATA "0.1"
+#define DATA "0.2"
 
 public Plugin myinfo =
 {
@@ -58,7 +58,7 @@ public OnMapStart()
 
 public Action Timer_Checker(Handle timer)
 {
-	if(!!cv_enable.BoolValue)
+	if(!cv_enable.BoolValue)
 		return;
 		
 	int size = GetArraySize(array_players_time);
@@ -87,7 +87,7 @@ public Action Timer_Checker(Handle timer)
 
 public void OnClientConnected(client)
 {
-	if(!!cv_enable.BoolValue)
+	if(!cv_enable.BoolValue)
 		return;
 		
 	char steamid[64];
