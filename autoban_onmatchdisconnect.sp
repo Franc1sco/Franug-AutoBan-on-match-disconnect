@@ -21,7 +21,7 @@
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
 
-#define DATA "0.2"
+#define DATA "0.3"
 
 public Plugin myinfo =
 {
@@ -34,7 +34,7 @@ public Plugin myinfo =
 
 Handle array_players_ids, array_players_time, array_players_name;
 
-ConVar cv_enable, cv_bantime, cv_time;
+ConVar cv_enable, cv_bantime, cv_time, cv_spectators;
 
 public void OnPluginStart()
 {
@@ -43,12 +43,21 @@ public void OnPluginStart()
 	cv_enable = CreateConVar("sm_autobandisconnect_enable", "0", "Enable or disable the functions of this plugin");
 	cv_bantime = CreateConVar("sm_autobandisconnect_bantime", "1440", "Ban time for people that disconnect on match live");
 	cv_time = CreateConVar("sm_autobandisconnect_enable", "300", "Time for wait people to reconnect until apply the ban");
+	cv_spectators = CreateConVar("sm_autobandisconnect_excludespectators", "0", "Exclude spectators from the ban countdown?");
+	
+	AutoExecConfig(true, "franug_autobandisconnect");
+	
+	HookConVarChange(cv_enable, CVarEnableChange);
 	
 	array_players_ids = CreateArray(64);
 	array_players_time  = CreateArray();
 	array_players_name  = CreateArray(128);
 	
 	CreateTimer(1.0, Timer_Checker, _, TIMER_REPEAT);
+}
+
+public void CVarEnableChange(Handle convar_hndl, const char[] oldValue, const char[] newValue) {
+	CleanAll();
 }
 
 public OnMapStart()
@@ -105,7 +114,8 @@ public void OnClientConnected(client)
 
 public OnClientDisconnect(client)
 {
-	if(!cv_enable.BoolValue)
+	if(!cv_enable.BoolValue || CheckCommandAccess(client, "bancountdown_inmunity", ADMFLAG_ROOT)
+	|| (cv_spectators.BoolValue && GetClientTeam(client) < 2))
 		return;
 	
 	char steamid[64], name[128];
