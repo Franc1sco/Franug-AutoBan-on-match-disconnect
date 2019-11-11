@@ -18,10 +18,11 @@
 
 #include <sourcemod>
 #include <sdktools>
+#include <autoexecconfig>
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
 
-#define DATA "0.3"
+#define DATA "0.4"
 
 public Plugin myinfo =
 {
@@ -40,12 +41,16 @@ public void OnPluginStart()
 {
 	CreateConVar("sm_franugautobanmatchdisc_version", DATA, "", FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	
+	AutoExecConfig_SetFile("franug_autobandisconnect");
+	
 	cv_enable = CreateConVar("sm_autobandisconnect_enable", "0", "Enable or disable the functions of this plugin");
 	cv_bantime = CreateConVar("sm_autobandisconnect_bantime", "1440", "Ban time for people that disconnect on match live");
-	cv_time = CreateConVar("sm_autobandisconnect_enable", "300", "Time for wait people to reconnect until apply the ban");
+	cv_time = CreateConVar("sm_autobandisconnect_time", "300", "Time for wait people to reconnect until apply the ban");
 	cv_spectators = CreateConVar("sm_autobandisconnect_excludespectators", "0", "Exclude spectators from the ban countdown?");
 	
-	AutoExecConfig(true, "franug_autobandisconnect");
+	AutoExecConfig_ExecuteFile();
+
+	AutoExecConfig_CleanFile();
 	
 	HookConVarChange(cv_enable, CVarEnableChange);
 	
