@@ -22,7 +22,7 @@
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
 
-#define DATA "0.4"
+#define DATA "0.5"
 
 public Plugin myinfo =
 {
@@ -43,10 +43,10 @@ public void OnPluginStart()
 	
 	AutoExecConfig_SetFile("franug_autobandisconnect");
 	
-	cv_enable = CreateConVar("sm_autobandisconnect_enable", "0", "Enable or disable the functions of this plugin");
-	cv_bantime = CreateConVar("sm_autobandisconnect_bantime", "1440", "Ban time for people that disconnect on match live");
-	cv_time = CreateConVar("sm_autobandisconnect_time", "300", "Time for wait people to reconnect until apply the ban");
-	cv_spectators = CreateConVar("sm_autobandisconnect_excludespectators", "0", "Exclude spectators from the ban countdown?");
+	cv_enable = AutoExecConfig_CreateConVar("sm_autobandisconnect_enable", "0", "Enable or disable the functions of this plugin");
+	cv_bantime = AutoExecConfig_CreateConVar("sm_autobandisconnect_bantime", "1440", "Ban time for people that disconnect on match live");
+	cv_time = AutoExecConfig_CreateConVar("sm_autobandisconnect_time", "300", "Time for wait people to reconnect until apply the ban");
+	cv_spectators = AutoExecConfig_CreateConVar("sm_autobandisconnect_excludespectators", "0", "Exclude spectators from the ban countdown?");
 	
 	AutoExecConfig_ExecuteFile();
 
