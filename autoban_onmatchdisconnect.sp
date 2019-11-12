@@ -21,8 +21,9 @@
 #include <autoexecconfig>
 #undef REQUIRE_PLUGIN
 #include <pugsetup>
+#include <warmod>
 
-#define DATA "0.5"
+#define DATA "0.6"
 
 public Plugin myinfo =
 {
@@ -148,4 +149,20 @@ public void PugSetup_OnGameStateChanged(GameState before, GameState after)
 		SetConVarBool(cv_enable, true);
 	else
 		SetConVarBool(cv_enable, false);
+}
+
+// warmod setup
+public void OnLiveOn3()
+{
+	SetConVarBool(cv_enable, true);
+}
+
+public void OnEndMatch()
+{
+	SetConVarBool(cv_enable, false);
+}
+
+public void OnResetMatch()
+{
+	CleanAll();
 }
