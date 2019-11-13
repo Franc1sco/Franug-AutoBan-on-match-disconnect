@@ -23,7 +23,7 @@
 #include <pugsetup>
 #include <warmod>
 
-#define DATA "0.6"
+#define DATA "0.7"
 
 public Plugin myinfo =
 {
@@ -100,13 +100,14 @@ public Action Timer_Checker(Handle timer)
 	}
 }
 
-public void OnClientConnected(client)
+public OnClientPostAdminCheck(int client)
 {
 	if(!cv_enable.BoolValue)
 		return;
 		
 	char steamid[64];
-	GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
+	if(!GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
+		return; // prevent fail on auth
 	
 	int index = FindStringInArray(array_players_ids, steamid);
 	
@@ -125,7 +126,13 @@ public OnClientDisconnect(client)
 		return;
 	
 	char steamid[64], name[128];
-	GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
+	if(!GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid)))
+		return; // prevent fail on auth
+	
+	int index = FindStringInArray(array_players_ids, steamid);
+	
+	if (index != -1)return; // prevent duplication
+	
 	GetClientName(client, name, sizeof(name));
 	
 	PushArrayString(array_players_ids, steamid);
