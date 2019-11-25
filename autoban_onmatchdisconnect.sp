@@ -23,7 +23,7 @@
 #include <pugsetup>
 #include <warmod>
 
-#define DATA "0.7"
+#define DATA "0.8"
 
 public Plugin myinfo =
 {
@@ -89,7 +89,7 @@ public Action Timer_Checker(Handle timer)
 			GetArrayString(array_players_ids, i, steamid, sizeof(steamid));
 			GetArrayString(array_players_name, i, name, sizeof(name));
 			
-			ServerCommand("sm_addban %i %s match abandoned", cv_bantime.IntValue, steamid);
+			ServerCommand("sm_addban %i %s Match abandoned by %s", cv_bantime.IntValue, steamid, name);
 			
 			PrintToChatAll("The player %s was banned for abandoned the match", name);
 			
